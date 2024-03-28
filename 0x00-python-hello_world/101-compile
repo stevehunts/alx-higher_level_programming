@@ -1,0 +1,31 @@
+#!/bin/bash
+# Compile a Python script
+
+if [[ -z "$PYFILE" ]]; then
+    echo "PYFILE is not set"
+    exit 1
+fi
+
+if [[ ! -f "$PYFILE" ]]; then
+    echo "File $PYFILE does not exist"
+    exit 2
+fi
+
+OUTPUT_FILE="${PYFILE}c"
+
+# Using python3 to compile the Python file
+python3 -m py_compile "$PYFILE" 
+
+# Since py_compile doesn't allow specifying the output file directly,
+# move the generated .pyc file to the desired location.
+PYC_FILE=$(find . -name "$(basename "$PYFILE"c)")
+if [[ -f "$PYC_FILE" ]]; then
+    mv "$PYC_FILE" "$OUTPUT_FILE"
+    echo "Compiling $PYFILE ..."
+else
+    echo "Compilation failed"
+    exit 3
+fi
+
+echo "Output file is $OUTPUT_FILE"
+
