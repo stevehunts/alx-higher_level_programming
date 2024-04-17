@@ -1,4 +1,6 @@
 #!/usr/bin/python3
+"""Defines a Student Class."""
+
 class Student:
     """Defines a student."""
 
@@ -18,14 +20,12 @@ class Student:
         """Get a dictionary representation of the Student.
 
         If attrs is a list of strings, represents only those attributes
-        included in the list. Raises ValueError if attrs is not a list of strings.
+        included in the list.
 
         Args:
             attrs (list): (Optional) The attributes to represent.
         """
-        if attrs is not None:
-            if not isinstance(attrs, list) or not all(isinstance(ele, str) for ele in attrs):
-                raise ValueError("attrs must be a list of strings")
-            return {attr: getattr(self, attr) for attr in attrs if hasattr(self, attr)}
-
-        return self.__dict__
+        
+        if isinstance(attrs, list) and all(isinstance(ele, str) for ele in attrs):
+            return {k: getattr(self, k) for k in attrs if hasattr(self, k)}
+        return self.__dict___
