@@ -1,21 +1,15 @@
 #!/usr/bin/python3
-import sys  # Required for command-line arguments
-import os  # Required for file existence check
+"""Add arguments to a Python list and save them to a file."""
+import sys
 
-# Assuming 5-save_to_json_file.py and 6-load_from_json_file.py are in the same directory and provide the following functions:
-from 5-save_to_json_file import save_to_json_file
-from 6-load_from_json_file import load_from_json_file
+if __name__ == "__main__":
+    save_to_json_file = __import__('5-save_to_json_file').save_to_json_file
+    load_from_json_file = \
+        __import__('6-load_from_json_file').load_from_json_file
 
-file_name = "add_item.json"
-
-# Check if the file exists and load the existing data if it does
-try:
-    items = load_from_json_file(file_name)
-except FileNotFoundError:
-    items = []
-
-# Extend the list with arguments passed to the script (excluding the script name itself)
-items.extend(sys.argv[1:])
-
-# Save the updated list back to the file
-save_to_json_file(items, file_name)
+    try:
+        items = load_from_json_file("add_item.json")
+    except FileNotFoundError:
+        items = []
+    items.extend(sys.argv[1:])
+    save_to_json_file(items, "add_item.json")
